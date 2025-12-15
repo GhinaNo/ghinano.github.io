@@ -1,6 +1,6 @@
 # 🌐 Ghina Alnouimi – Personal Developer Portfolio Website
 
-Welcome to my personal developer portfolio – a responsive, lightweight, and modern website created using **HTML5, CSS3, and JavaScript**. This portfolio is built to showcase my technical skills, software projects, and academic achievements in mobile development, Flutter engineering, and software design.
+Welcome to my personal developer portfolio – a responsive, lightweight, and modern website created using **HTML5, CSS3, and JavaScript**. 
 
 > 📍 **Live Portfolio Website:** [https://ghinano.github.io](https://ghinano.github.io)
 
@@ -28,10 +28,10 @@ This portfolio includes several optimized sections that highlight my **technical
 - Contact information and social links
 
 ### 🛠️ Skills Section
-- Mobile Development (Flutter, Dart, Java, C++)
-- State Management (Bloc/Cubit, Provider)
-- Backend Integration (Firebase, REST APIs, MySQL)
-- Tools & Practices (Git, Clean Architecture, Responsive UI)
+- Mobile Development (Flutter, Dart)
+- State Management (Bloc/Cubit)
+- Backend Integration (Firebase, REST APIs)
+- Tools & Practices (Git, Github, Clean Architecture, Responsive UI)
 
 ### 🚀 Project Showcase
 - Featured Flutter projects with:

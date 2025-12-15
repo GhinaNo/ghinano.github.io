@@ -201,7 +201,7 @@ if (trailContainer) {
           'contactTitle': "تواصل معي",
           'contactSubtitle': "لنعمل معًا!",
           'location': "الموقع",
-          'availableForContact': "متاحة لـ", // تغيير المفتاح هنا أيضًا
+          'availableForContact': "متاحة لـ",
           'flutterProjects': "مشاريع تطوير Flutter",
           'consultations': "استشارات تطبيقات الموبايل",
           'freelance': "فرص العمل الحر",
