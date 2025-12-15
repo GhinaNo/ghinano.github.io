@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         en: {
           // Navigation
           'portfolioTitle': "Ghina's Portfolio",
-          'frontendDeveloper': "Frontend Developer",
+          'softwareEngineer': "Software Engineer",
           'home': "Home",
           'about': "About",
           'skills': "Skills",
@@ -60,10 +60,10 @@ document.addEventListener('DOMContentLoaded', function() {
           'degreeDesc': "Specialized in software development, algorithms, databases, and mobile application development.",
 
           // Contact Section
-          'contactTitle': "Contact",
+          'contactTitle': "Contact me",
           'contactSubtitle': "Let's work together!",
           'location': "Location",
-          'availableFor': "Available For",
+          'availableForContact': "Available For", // تغيير المفتاح لتجنب التكرار
           'flutterProjects': "Flutter Development Projects",
           'consultations': "Mobile App Consultations",
           'freelance': "Freelance Opportunities",
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ar: {
           // Navigation
           'portfolioTitle': "معرض أعمال غنى",
-          'frontendDeveloper': "مطورة واجهات أمامية",
+          'softwareEngineer': "مهندسة برمجيات",
           'home': "الرئيسية",
           'about': "عنّي",
           'skills': "المهارات",
@@ -134,10 +134,10 @@ document.addEventListener('DOMContentLoaded', function() {
           'degreeDesc': "متخصصة في تطوير البرمجيات، الخوارزميات، قواعد البيانات، وتطوير تطبيقات الموبايل.",
 
           // Contact Section
-          'contactTitle': "التواصل",
+          'contactTitle': "تواصل معي",
           'contactSubtitle': "لنعمل معًا!",
           'location': "الموقع",
-          'availableFor': "متاحة لـ",
+          'availableForContact': "متاحة لـ", // تغيير المفتاح هنا أيضًا
           'flutterProjects': "مشاريع تطوير Flutter",
           'consultations': "استشارات تطبيقات الموبايل",
           'freelance': "فرص العمل الحر",
@@ -158,36 +158,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     translate(key) {
-      return this.translations[this.currentLang][key] || key;
+      const translation = this.translations[this.currentLang][key];
+      return translation !== undefined ? translation : key;
     }
 
     applyTranslations() {
       // Update all elements with data-translate attribute
       const elements = document.querySelectorAll('[data-translate]');
-      elements.forEach(el => {
-        const key = el.getAttribute('data-translate');
-        if (key && this.translations[this.currentLang][key]) {
-          el.textContent = this.translate(key);
-        }
-      });
+      if (elements.length > 0) {
+        elements.forEach(el => {
+          const key = el.getAttribute('data-translate');
+          if (key) {
+            const translation = this.translate(key);
+            if (translation !== key) {
+              el.textContent = translation;
+            }
+          }
+        });
+      }
 
       // Update placeholders
       const placeholderElements = document.querySelectorAll('[data-placeholder]');
-      placeholderElements.forEach(el => {
-        const key = el.getAttribute('data-placeholder');
-        if (key && this.translations[this.currentLang][key]) {
-          el.placeholder = this.translate(key);
-        }
-      });
+      if (placeholderElements.length > 0) {
+        placeholderElements.forEach(el => {
+          const key = el.getAttribute('data-placeholder');
+          if (key) {
+            const translation = this.translate(key);
+            if (translation !== key) {
+              el.placeholder = translation;
+            }
+          }
+        });
+      }
 
       // Update navigation links
       const navLinks = document.querySelectorAll('.nav-link span');
-      navLinks.forEach(link => {
-        if (link.hasAttribute('data-translate')) {
-          const key = link.getAttribute('data-translate');
-          link.textContent = this.translate(key);
-        }
-      });
+      if (navLinks.length > 0) {
+        navLinks.forEach(link => {
+          if (link.hasAttribute('data-translate')) {
+            const key = link.getAttribute('data-translate');
+            const translation = this.translate(key);
+            if (translation !== key) {
+              link.textContent = translation;
+            }
+          }
+        });
+      }
 
       // Update name visibility
       this.updateNameVisibility();
@@ -211,14 +227,15 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    updateTypingText() {
-      if (window.typingAnimation) {
-        window.typingAnimation.updatePhrases([
-          this.translate('softwareEngineeringStudent'),
-          this.translate('frontendDeveloper')
-        ]);
-      }
-    }
+updateTypingText() {
+  if (window.portfolioTypingAnimation) {
+    window.portfolioTypingAnimation.updatePhrases([
+      this.translate('softwareEngineeringStudent'),
+      this.translate('frontendDeveloper')
+    ]);
+  }
+}
+
 
     switchLanguage(lang) {
       if (lang !== this.currentLang) {
@@ -253,14 +270,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     updatePhrases(phrases) {
-      this.phrases = phrases;
-      this.reset();
+      if (Array.isArray(phrases) && phrases.length > 0) {
+        this.phrases = phrases;
+        this.reset();
+      }
     }
 
     type() {
-      this.isEnd = false;
+      if (!this.element || this.phrases.length === 0) return;
 
-      if (this.phrases.length === 0) return;
+      this.isEnd = false;
 
       if (!this.isDeleting && this.currentChar < this.phrases[this.currentPhrase].length) {
         this.element.textContent = this.phrases[this.currentPhrase].substring(0, this.currentChar + 1);
@@ -284,21 +303,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     reset() {
-      clearTimeout(this.timeout);
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
       this.currentPhrase = 0;
       this.currentChar = 0;
       this.isDeleting = false;
       this.isEnd = false;
-      this.element.textContent = '';
+      if (this.element) {
+        this.element.textContent = '';
+      }
       this.timeout = setTimeout(() => this.type(), 500);
     }
 
     start(phrases) {
       if (phrases) {
-        this.phrases = phrases;
+        this.updatePhrases(phrases);
       }
       if (this.element && this.phrases.length > 0) {
         this.timeout = setTimeout(() => this.type(), 1000);
+      }
+    }
+
+    destroy() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
       }
     }
   }
@@ -341,7 +370,8 @@ document.addEventListener('DOMContentLoaded', function() {
       ];
 
       this.typingAnimation = new TypingAnimation("typed-text");
-      window.typingAnimation = this.typingAnimation;
+      // استخدام namespace لتجنب التعارض
+      window.portfolioTypingAnimation = this.typingAnimation;
       this.typingAnimation.start(phrases);
 
       // Scroll animations
@@ -351,11 +381,15 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollAnimations() {
       const checkVisibility = () => {
         const elements = document.querySelectorAll('.fade-in, .slide-up');
+        if (elements.length === 0) return;
+
         elements.forEach(element => {
-          const rect = element.getBoundingClientRect();
-          const windowHeight = window.innerHeight;
-          if (rect.top <= windowHeight * 0.8) {
-            element.classList.add('visible');
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            if (rect.top <= windowHeight * 0.8) {
+              element.classList.add('visible');
+            }
           }
         });
       };
@@ -363,32 +397,45 @@ document.addEventListener('DOMContentLoaded', function() {
       // Initial check
       checkVisibility();
 
-      // Check on scroll with debounce
-      let scrollTimeout;
+      // Check on scroll with throttling
+      let isScrolling = false;
       window.addEventListener('scroll', () => {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(checkVisibility, 10);
+        if (!isScrolling) {
+          isScrolling = true;
+          setTimeout(() => {
+            checkVisibility();
+            isScrolling = false;
+          }, 50);
+        }
       });
 
       // Animate skill bars
       const animateSkillBars = () => {
         const skillLevels = document.querySelectorAll('.skill-level');
+        if (skillLevels.length === 0) return;
+
         skillLevels.forEach(level => {
-          const rect = level.getBoundingClientRect();
-          const windowHeight = window.innerHeight;
-          if (rect.top <= windowHeight * 0.8 && !level.classList.contains('animated')) {
-            const width = level.style.width;
-            level.style.width = '0';
-            setTimeout(() => {
-              level.style.width = width;
-              level.classList.add('animated');
-            }, 300);
+          if (level && !level.classList.contains('animated')) {
+            const rect = level.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            if (rect.top <= windowHeight * 0.8) {
+              const computedWidth = getComputedStyle(level).width;
+              const targetWidth = computedWidth || level.getAttribute('data-width') || '100%';
+
+              level.style.width = '0';
+              setTimeout(() => {
+                level.style.width = targetWidth;
+                level.classList.add('animated');
+              }, 300);
+            }
           }
         });
       };
 
       window.addEventListener('scroll', animateSkillBars);
-      animateSkillBars();
+      // Initial check
+      setTimeout(animateSkillBars, 100);
     }
 
     initEventListeners() {
@@ -409,6 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
 
+
       // Mobile menu toggle
       const menuToggle = document.getElementById('menu-toggle');
       const menu = document.getElementById('menu');
@@ -423,7 +471,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Close menu when clicking outside
         document.addEventListener('click', (event) => {
-          if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
+          if (menu.classList.contains('active') &&
+              !menu.contains(event.target) &&
+              !menuToggle.contains(event.target)) {
             menu.classList.remove('active');
             menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
           }
@@ -441,23 +491,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Smooth scrolling
       const links = document.querySelectorAll("a[data-scroll]");
-      links.forEach(link => {
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
-          const targetId = link.getAttribute("data-scroll");
-          const target = document.querySelector(targetId);
+      if (links.length > 0) {
+        links.forEach(link => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute("data-scroll");
+            if (!targetId) return;
 
-          if (target) {
-            window.scrollTo({
-              top: target.offsetTop - 80,
-              behavior: "smooth"
-            });
+            const target = document.querySelector(targetId);
 
-            // Update active nav link
-            this.setActiveNavLink(link);
-          }
+            if (target) {
+              window.scrollTo({
+                top: target.offsetTop - 80,
+                behavior: "smooth"
+              });
+
+              // Update active nav link
+              this.setActiveNavLink(link);
+            }
+          });
         });
-      });
+      }
 
       // Contact form
       const contactForm = document.getElementById('contact-form');
@@ -480,53 +534,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Show/hide button based on scroll
+        let scrollTimeout;
         window.addEventListener('scroll', () => {
-          if (window.scrollY > 300) {
-            backToTop.style.opacity = '1';
-            backToTop.style.visibility = 'visible';
-          } else {
-            backToTop.style.opacity = '0';
-            backToTop.style.visibility = 'hidden';
-          }
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            if (window.scrollY > 300) {
+              backToTop.style.opacity = '1';
+              backToTop.style.visibility = 'visible';
+            } else {
+              backToTop.style.opacity = '0';
+              backToTop.style.visibility = 'hidden';
+            }
+          }, 50);
         });
       }
     }
 
-    handleFormSubmit(form) {
-      const submitBtn = form.querySelector('.submit-btn');
-      const originalText = submitBtn.innerHTML;
+handleFormSubmit(form) {
+  const submitBtn = form.querySelector('.submit-btn');
+  if (!submitBtn) return;
 
-      // Show loading state
-      submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${this.translationManager.translate('sending')}`;
-      submitBtn.disabled = true;
+  const originalText = submitBtn.innerHTML;
 
-      // Simulate API call
-      setTimeout(() => {
-        // Success message
-        alert(this.translationManager.translate('sentSuccess'));
+  submitBtn.innerHTML =
+    `<i class="fas fa-spinner fa-spin"></i> ${this.translationManager.translate('sending')}`;
+  submitBtn.disabled = true;
 
-        // Reset form
-        form.reset();
+  const templateParams = {
+    from_name: document.getElementById('form-name').value,
+    from_email: document.getElementById('form-email').value,
+    subject: document.getElementById('form-subject').value,
+    message: document.getElementById('form-message').value,
+  };
 
-        // Reset button
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      }, 1500);
-    }
+  emailjs
+    .send(
+      "SERVICE_ID_HERE",
+      "TEMPLATE_ID_HERE",
+      templateParams
+    )
+    .then(() => {
+      alert(this.translationManager.translate('sentSuccess'));
+      form.reset();
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("❌ Failed to send message");
+    })
+    .finally(() => {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    });
+}
 
     initScrollEffects() {
       // Navbar scroll effect
       const header = document.querySelector('header');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
+      if (header) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
 
-        // Update active nav link
-        this.updateActiveNavLink();
-      });
+          // Update active nav link
+          this.updateActiveNavLink();
+        });
+      }
 
       // Set current year in footer
       const currentYear = new Date().getFullYear();
@@ -538,17 +613,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setActiveNavLink(clickedLink) {
       const navLinks = document.querySelectorAll('.nav-link');
-      navLinks.forEach(link => link.classList.remove('active'));
-      clickedLink.classList.add('active');
+      if (navLinks.length > 0) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        clickedLink.classList.add('active');
+      }
     }
 
     updateActiveNavLink() {
       const sections = document.querySelectorAll('.section');
       const navLinks = document.querySelectorAll('.nav-link[data-scroll]');
 
+      if (sections.length === 0 || navLinks.length === 0) return;
+
       let currentSection = '';
 
       sections.forEach(section => {
+        if (!section.id) return;
+
         const sectionTop = section.offsetTop - 100;
         const sectionHeight = section.clientHeight;
 
@@ -559,29 +640,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
       navLinks.forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('data-scroll') === `#${currentSection}`) {
+        const target = link.getAttribute('data-scroll');
+        if (target && target === `#${currentSection}`) {
           link.classList.add('active');
         }
       });
     }
+
+    // دالة للتنظيف إذا لزم الأمر
+    destroy() {
+      if (this.typingAnimation) {
+        this.typingAnimation.destroy();
+      }
+    }
   }
 
   // Start the application
-  new PortfolioApp();
+  const app = new PortfolioApp();
+
+  // جعل التطبيق متاحًا للتصحيح
+  window.portfolioApp = app;
 });
 
-// Additional helper function for debouncing
-function debounce(func, wait = 20, immediate = true) {
-  let timeout;
-  return function() {
-    const context = this, args = arguments;
-    const later = function() {
-      timeout = null;
-      if (!immediate) func.apply(context, args);
-    };
-    const callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) func.apply(context, args);
-  };
-}
