@@ -455,51 +455,66 @@ main {
 }
 
 /* Profile Image */
+/* =========================
+/* =========================
+   Profile Image (Correct)
+========================= */
+
 .profile-container {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 320px;
+  height: 320px;
   flex-shrink: 0;
 }
 
+/* الصورة نفسها */
 .profile-img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+
+  /* قص ذكي بدون تشويه */
   object-fit: cover;
-  border: 5px solid transparent;
-  background: linear-gradient(45deg, var(--accent), var(--accent-2)) border-box;
+  object-position: center 15%;
+
+  /* بدون أي خلفية أو padding */
+  display: block;
+
   position: relative;
   z-index: 2;
   animation: float 6s ease-in-out infinite;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+/* الإطار المتدرج (هو اللي يعطي الشكل الحلو) */
+.profile-container::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, var(--accent), var(--accent-2));
+  z-index: 1;
 }
 
+/* الخلفية الدائرية */
 .profile-bg {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 350px;
-  height: 350px;
+  width: 380px;
+  height: 380px;
   border-radius: 50%;
   background: var(--gradient);
-  opacity: 0.1;
-  z-index: 1;
+  opacity: 0.08;
+  z-index: 0;
 }
 
-.floating-elements {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 3;
+/* حركة عائمة */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
 }
+
 
 .flutter-icon,
 .dart-icon {
@@ -563,32 +578,38 @@ html[dir="rtl"] .dart-icon {
   width: 200px;
   height: 200px;
   margin-bottom: 30px;
+  flex-shrink: 0;
 }
 
+/* الصورة */
 .about-img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+
   object-fit: cover;
+  object-position: center 15%;
+
+  display: block;
   position: relative;
   z-index: 2;
 }
 
+/* الإطار المتحرك */
 .image-border {
   position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
+  inset: -10px;
   border-radius: 50%;
   background: var(--gradient);
   z-index: 1;
-  animation: rotate 20s linear infinite;
+  filter: blur(0.5px);
+  animation: rotate 25s linear infinite;
 }
 
+/* دوران ناعم */
 @keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .info-list {
@@ -1426,4 +1447,169 @@ html[dir="rtl"] .info-list span {
     transform: translateY(20px);
     transition-duration: 0.45s;
   }
+}
+@media (max-width: 768px) {
+  .profile-container {
+    width: 260px;
+    height: 260px;
+  }
+
+  .profile-img {
+    object-position: center 12%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    width: 220px;
+    height: 220px;
+  }
+
+  .profile-img {
+    object-position: center 10%;
+  }
+}
+
+/* =========================
+   Custom Cursor
+========================= */
+
+body {
+  cursor: none;
+}
+
+/* النقطة الأساسية */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+/* الدائرة الخارجية */
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--accent-2);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.2s ease,
+    height 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+/* Hover على عناصر قابلة للنقر */
+.cursor-hover .custom-cursor-ring {
+  width: 55px;
+  height: 55px;
+  border-color: var(--accent);
+}
+
+/* Click effect */
+.cursor-click .custom-cursor-ring {
+  transform: translate(-50%, -50%) scale(0.85);
+}
+/* =========================
+   Mouse Trail Effect
+========================= */
+
+.cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.trail-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--accent),
+    var(--accent-2)
+  );
+  opacity: 0.6;
+  transform: translate(-50%, -50%);
+  animation: trailFade 0.8s ease-out forwards;
+  filter: blur(0.5px);
+}
+
+@keyframes trailFade {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+}
+
+/* موبايل: إلغاء التريل */
+@media (max-width: 768px) {
+  .cursor-trail {
+    display: none;
+  }
+}
+/* =========================
+   Ambient Background Orbs
+========================= */
+
+.background-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(155, 89, 255, 0.15),
+    transparent 70%
+  );
+  animation: floatOrb 18s ease-in-out infinite;
+}
+
+.orb.pink {
+  background: radial-gradient(
+    circle,
+    rgba(255, 122, 182, 0.12),
+    transparent 70%
+  );
+}
+
+.orb.one {
+  top: -10%;
+  left: -10%;
+}
+
+.orb.two {
+  bottom: -15%;
+  right: -10%;
+  animation-delay: 6s;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(40px, 60px); }
 }

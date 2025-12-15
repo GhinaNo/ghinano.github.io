@@ -1,6 +1,70 @@
 // DOM Ready
 document.addEventListener('DOMContentLoaded', function() {
 
+// =========================
+// Custom Cursor (FIXED)
+// =========================
+const cursor = document.querySelector('.custom-cursor');
+const ring = document.querySelector('.custom-cursor-ring');
+
+if (cursor && ring) {
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  });
+
+  // Hover effect
+  document.querySelectorAll('a, button, .nav-link, .btn').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      document.body.classList.add('cursor-hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      document.body.classList.remove('cursor-hover');
+    });
+  });
+
+  // Click animation
+  document.addEventListener('mousedown', () => {
+    document.body.classList.add('cursor-click');
+  });
+  document.addEventListener('mouseup', () => {
+    document.body.classList.remove('cursor-click');
+  });
+}
+// =========================
+// Mouse Trail Effect
+// =========================
+const trailContainer = document.querySelector('.cursor-trail');
+
+if (trailContainer) {
+  let lastTime = 0;
+
+  document.addEventListener('mousemove', e => {
+    const now = Date.now();
+
+    // تحكم بالكثافة (كل 30ms)
+    if (now - lastTime < 30) return;
+    lastTime = now;
+
+    const dot = document.createElement('span');
+    dot.className = 'trail-dot';
+
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+
+    trailContainer.appendChild(dot);
+
+    // تنظيف تلقائي
+    setTimeout(() => {
+      dot.remove();
+    }, 800);
+  });
+}
+
+
   // ========== نظام الترجمة المتكامل ==========
   class TranslationManager {
     constructor() {
@@ -661,4 +725,3 @@ handleFormSubmit(form) {
   // جعل التطبيق متاحًا للتصحيح
   window.portfolioApp = app;
 });
-
