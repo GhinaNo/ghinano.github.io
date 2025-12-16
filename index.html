@@ -420,7 +420,13 @@
         </div>
       </div>
 
-      <form id="contact-form" class="contact-form">
+      <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              class="contact-form"
+      >
+        <input type="hidden" name="form-name" value="contact">
         <div class="form-group">
           <input
                   type="text"
@@ -493,13 +499,8 @@
     </a>
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-<script>
-  (function () {
-    emailjs.init("49phlR4efaQVCnwBv");
-  })();
-</script>
+
 
 <script src="script.js"></script>
 
