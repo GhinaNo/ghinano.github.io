@@ -2,7 +2,7 @@
 
 Welcome to my personal developer portfolio – a responsive, lightweight, and modern website created using **HTML5, CSS3, and JavaScript**. 
 
-> 📍 **Live Portfolio Website:** [https://ghinano.github.io](https://ghinano.github.io)
+> 📍 Live Portfolio Website: https://portfolio-ghina.netlify.app
 
 ---
 
@@ -114,7 +114,7 @@ Below are screenshots from my live portfolio website.
 ## 🚀 Getting Started
 
 ### ✅ View Live Portfolio
-Visit: [https://ghinano.github.io](https://ghinano.github.io)
+Visit: [https://portfolio-ghina.netlify.app](https://portfolio-ghina.netlify.app/)
 
 ### 🔧 Run Locally
 ```bash
