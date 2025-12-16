@@ -516,14 +516,7 @@ if (menuToggle && menu && overlay) {
         });
       }
 
-      // Contact form
-      const contactForm = document.getElementById('contact-form');
-      if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          this.handleFormSubmit(contactForm);
-        });
-      }
+
 
       // Back to top button
       const backToTop = document.querySelector('.back-to-top');
@@ -553,35 +546,6 @@ if (menuToggle && menu && overlay) {
       }
     }
 
-handleFormSubmit(form) {
-  const submitBtn = form.querySelector('.submit-btn');
-  if (!submitBtn) return;
-
-  const originalText = submitBtn.innerHTML;
-
-  submitBtn.innerHTML =
-    `<i class="fas fa-spinner fa-spin"></i> ${this.translationManager.translate('sending')}`;
-  submitBtn.disabled = true;
-
-  emailjs
-    .sendForm(
-      "service_bm7emhi",
-      "template_gvnf0bd",
-      form
-    )
-    .then(() => {
-      alert(this.translationManager.translate('sentSuccess'));
-      form.reset();
-    })
-    .catch((error) => {
-      console.error('EmailJS Error:', error);
-      alert("❌ Failed to send message");
-    })
-    .finally(() => {
-      submitBtn.innerHTML = originalText;
-      submitBtn.disabled = false;
-    });
-}
 
     initScrollEffects() {
       // Navbar scroll effect
