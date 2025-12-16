@@ -77,35 +77,39 @@ Below are screenshots from my live portfolio website.
     <tr>
       <td align="center">
         <img src="Screenshot/home.png" alt="Home Page" width="250px"><br>
-        <b>🏠 Home Page</b>
+        <b>🏠 Home</b>
       </td>
       <td align="center">
-        <img src="Screenshot/about.png" alt="About Section" width="250px"><br>
+        <img src="Screenshot/aboutme.png" alt="About Me Section" width="250px"><br>
         <b>🧑‍💻 About Me</b>
       </td>
       <td align="center">
-        <img src="Screenshot/projects.png" alt="Projects Section" width="250px"><br>
-        <b>🚀 Projects</b>
+        <img src="Screenshot/skills.png" alt="Skills Section" width="250px"><br>
+        <b>🛠️ Skills</b>
       </td>
     </tr>
     <tr>
       <td align="center">
-        <img src="Screenshot/skills.png" alt="Skills Section" width="250px"><br>
-        <b>🛠️ Skills</b>
+        <img src="Screenshot/projects1.png" alt="Projects Section 1" width="250px"><br>
+        <b>🚀 Projects (1)</b>
+      </td>
+      <td align="center">
+        <img src="Screenshot/projects2.png" alt="Projects Section 2" width="250px"><br>
+        <b>🚀 Projects (2)</b>
       </td>
       <td align="center">
         <img src="Screenshot/education.png" alt="Education Section" width="250px"><br>
         <b>🎓 Education</b>
       </td>
-      <td align="center">
-        <img src="Screenshot/contact.png" alt="Contact Section" width="250px"><br>
-        <b>📞 Contact</b>
+    </tr>
+    <tr>
+      <td align="center" colspan="3">
+        <img src="Screenshot/contactme.png" alt="Contact Section" width="300px"><br>
+        <b>📞 Contact Me</b>
       </td>
     </tr>
   </table>
 </div>
-
----
 
 ## 🚀 Getting Started
 
