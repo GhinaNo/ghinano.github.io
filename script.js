@@ -563,25 +563,18 @@ handleFormSubmit(form) {
     `<i class="fas fa-spinner fa-spin"></i> ${this.translationManager.translate('sending')}`;
   submitBtn.disabled = true;
 
-  const templateParams = {
-    from_name: document.getElementById('form-name').value,
-    from_email: document.getElementById('form-email').value,
-    subject: document.getElementById('form-subject').value,
-    message: document.getElementById('form-message').value,
-  };
-
   emailjs
-    .send(
-      "SERVICE_ID_HERE",
-      "TEMPLATE_ID_HERE",
-      templateParams
+    .sendForm(
+      "service_bm7emhi",
+      "template_gvnf0bd",
+      form
     )
     .then(() => {
       alert(this.translationManager.translate('sentSuccess'));
       form.reset();
     })
     .catch((error) => {
-      console.error(error);
+      console.error('EmailJS Error:', error);
       alert("❌ Failed to send message");
     })
     .finally(() => {

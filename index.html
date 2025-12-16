@@ -422,22 +422,40 @@
 
       <form id="contact-form" class="contact-form">
         <div class="form-group">
-          <input type="text" id="form-name" data-placeholder="namePlaceholder" placeholder="Your Name" required>
+          <input
+                  type="text"
+                  id="form-name"
+                  name="name"
+                  data-placeholder="namePlaceholder"
+                  placeholder="Your Name"
+                  required
+          >
           <i class="fas fa-user"></i>
         </div>
 
         <div class="form-group">
-          <input type="email" id="form-email" data-placeholder="emailPlaceholder" placeholder="Your Email" required>
+          <input
+                  type="email"
+                  id="form-email"
+                  name="email"
+                  data-placeholder="emailPlaceholder"
+                  placeholder="Your Email"
+                  required
+          >
           <i class="fas fa-envelope"></i>
         </div>
 
-        <div class="form-group">
-          <input type="text" id="form-subject" data-placeholder="subjectPlaceholder" placeholder="Subject" required>
-          <i class="fas fa-tag"></i>
-        </div>
+        <!-- احذفي حقل Subject بالكامل (غير مستخدم) -->
 
         <div class="form-group">
-          <textarea id="form-message" data-placeholder="messagePlaceholder" placeholder="Your Message" rows="5" required></textarea>
+    <textarea
+            id="form-message"
+            name="message"
+            data-placeholder="messagePlaceholder"
+            placeholder="Your Message"
+            rows="5"
+            required
+    ></textarea>
           <i class="fas fa-comment"></i>
         </div>
 
