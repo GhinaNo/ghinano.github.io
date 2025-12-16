@@ -2,11 +2,11 @@
 <html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ghina Alnouimi – Software Engineer</title>
 
   <meta name="description" content="Portfolio of Ghina Alnouimi – Software Engineering Student and Flutter Developer.">
   <meta name="author" content="Ghina Ghassan Alnouimi">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;800&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,6 +14,13 @@
 </head>
 
 <body>
+<script>
+  if (window.matchMedia("(hover: none)").matches) {
+    document.documentElement.classList.add("is-touch");
+  } else {
+    document.documentElement.classList.add("is-desktop");
+  }
+</script>
 
 <header>
   <nav id="navbar">
@@ -447,7 +454,7 @@
 <footer>
   <div class="footer-content">
     <p class="copyright">
-      &copy; <span id="current-year">2024</span> Ghina Alnouimi.
+      &copy; <span id="current-year">2025</span> Ghina Alnouimi.
       <span data-translate="rights">All rights reserved.</span>
     </p>
 
@@ -478,9 +485,7 @@
 
 <script src="script.js"></script>
 
-<div class="custom-cursor"></div>
-<div class="custom-cursor-ring"></div>
-<div class="cursor-trail"></div>
+<div class="menu-overlay" id="menu-overlay"></div>
 
 </body>
 </html>

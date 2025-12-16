@@ -1,71 +1,9 @@
 // DOM Ready
 document.addEventListener('DOMContentLoaded', function() {
-
-// =========================
-// Custom Cursor (FIXED)
-// =========================
-const cursor = document.querySelector('.custom-cursor');
-const ring = document.querySelector('.custom-cursor-ring');
-
-if (cursor && ring) {
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-
-    ring.style.left = e.clientX + 'px';
-    ring.style.top = e.clientY + 'px';
-  });
-
-  // Hover effect
-  document.querySelectorAll('a, button, .nav-link, .btn').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      document.body.classList.add('cursor-hover');
-    });
-    el.addEventListener('mouseleave', () => {
-      document.body.classList.remove('cursor-hover');
-    });
-  });
-
-  // Click animation
-  document.addEventListener('mousedown', () => {
-    document.body.classList.add('cursor-click');
-  });
-  document.addEventListener('mouseup', () => {
-    document.body.classList.remove('cursor-click');
-  });
-}
-// =========================
-// Mouse Trail Effect
-// =========================
-const trailContainer = document.querySelector('.cursor-trail');
-
-if (trailContainer) {
-  let lastTime = 0;
-
-  document.addEventListener('mousemove', e => {
-    const now = Date.now();
-
-    // تحكم بالكثافة (كل 30ms)
-    if (now - lastTime < 30) return;
-    lastTime = now;
-
-    const dot = document.createElement('span');
-    dot.className = 'trail-dot';
-
-    dot.style.left = e.clientX + 'px';
-    dot.style.top = e.clientY + 'px';
-
-    trailContainer.appendChild(dot);
-
-    // تنظيف تلقائي
-    setTimeout(() => {
-      dot.remove();
-    }, 800);
-  });
-}
+const isTouchDevice = window.matchMedia("(hover: none)").matches;
 
 
-  // ========== نظام الترجمة المتكامل ==========
+ // ========== نظام الترجمة المتكامل ==========
   class TranslationManager {
     constructor() {
       this.currentLang = localStorage.getItem('portfolio-lang') || 'en';
@@ -127,7 +65,7 @@ if (trailContainer) {
           'contactTitle': "Contact me",
           'contactSubtitle': "Let's work together!",
           'location': "Location",
-          'availableForContact': "Available For", // تغيير المفتاح لتجنب التكرار
+          'availableForContact': "Available For",
           'flutterProjects': "Flutter Development Projects",
           'consultations': "Mobile App Consultations",
           'freelance': "Freelance Opportunities",
@@ -474,32 +412,36 @@ updateTypingText() {
       });
 
       // Animate skill bars
-      const animateSkillBars = () => {
-        const skillLevels = document.querySelectorAll('.skill-level');
-        if (skillLevels.length === 0) return;
+const animateSkillBars = () => {
+  const skillLevels = document.querySelectorAll('.skill-level');
+  if (skillLevels.length === 0) return;
 
-        skillLevels.forEach(level => {
-          if (level && !level.classList.contains('animated')) {
-            const rect = level.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
+  skillLevels.forEach(level => {
+    if (!level.classList.contains('animated')) {
+      const rect = level.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
 
-            if (rect.top <= windowHeight * 0.8) {
-              const computedWidth = getComputedStyle(level).width;
-              const targetWidth = computedWidth || level.getAttribute('data-width') || '100%';
+      if (rect.top <= windowHeight * 0.8) {
+        const targetWidth =
+          level.getAttribute('data-width') ||
+          getComputedStyle(level).getPropertyValue('--level') ||
+          '100%';
 
-              level.style.width = '0';
-              setTimeout(() => {
-                level.style.width = targetWidth;
-                level.classList.add('animated');
-              }, 300);
-            }
-          }
-        });
-      };
+        level.style.width = '0';
+        setTimeout(() => {
+          level.style.width = targetWidth;
+          level.classList.add('animated');
+        }, 300);
+      }
+    }
+  });
+};
 
-      window.addEventListener('scroll', animateSkillBars);
-      // Initial check
-      setTimeout(animateSkillBars, 100);
+if (!isTouchDevice) {
+  window.addEventListener('scroll', animateSkillBars);
+  setTimeout(animateSkillBars, 100);
+}
+
     }
 
     initEventListeners() {
@@ -521,37 +463,36 @@ updateTypingText() {
       }
 
 
-      // Mobile menu toggle
-      const menuToggle = document.getElementById('menu-toggle');
-      const menu = document.getElementById('menu');
+const menuToggle = document.getElementById("menu-toggle");
+const menu = document.getElementById("menu");
+const overlay = document.getElementById("menu-overlay");
 
-      if (menuToggle && menu) {
-        menuToggle.addEventListener('click', () => {
-          menu.classList.toggle('active');
-          menuToggle.innerHTML = menu.classList.contains('active')
-            ? '<i class="fas fa-times"></i>'
-            : '<i class="fas fa-bars"></i>';
-        });
+if (menuToggle && menu && overlay) {
+  menuToggle.addEventListener("click", () => {
+    menu.classList.toggle("open");
+    overlay.classList.toggle("active");
 
-        // Close menu when clicking outside
-        document.addEventListener('click', (event) => {
-          if (menu.classList.contains('active') &&
-              !menu.contains(event.target) &&
-              !menuToggle.contains(event.target)) {
-            menu.classList.remove('active');
-            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-          }
-        });
+    menuToggle.innerHTML = menu.classList.contains("open")
+      ? '<i class="fas fa-times"></i>'
+      : '<i class="fas fa-bars"></i>';
+  });
 
-        // Close menu when clicking a link
-        const menuLinks = document.querySelectorAll('#menu a');
-        menuLinks.forEach(link => {
-          link.addEventListener('click', () => {
-            menu.classList.remove('active');
-            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-          });
-        });
-      }
+  overlay.addEventListener("click", () => {
+    menu.classList.remove("open");
+    overlay.classList.remove("active");
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+  });
+
+  menu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("open");
+      overlay.classList.remove("active");
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    });
+  });
+}
+
+
 
       // Smooth scrolling
       const links = document.querySelectorAll("a[data-scroll]");
@@ -565,13 +506,11 @@ updateTypingText() {
             const target = document.querySelector(targetId);
 
             if (target) {
-              window.scrollTo({
-                top: target.offsetTop - 80,
-                behavior: "smooth"
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
               });
 
-              // Update active nav link
-              this.setActiveNavLink(link);
             }
           });
         });
